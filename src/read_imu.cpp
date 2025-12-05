@@ -52,10 +52,8 @@ int main(int argc, char **argv)
     {
       try
       {
-        bool success = eimu.readImuData(r, p, y, ax, ay, az, gz, gy, gz);
-        if (success) {
+        eimu.readImuData(r, p, y, ax, ay, az, gz, gy, gz);
 
-        }
         std::cout << "r: " << r << std::fixed << std::setprecision(4);
         std::cout << "\tp: " << p << std::fixed << std::setprecision(4);
         std::cout << "\ty: " << y << std::fixed << std::setprecision(4) << std::endl;
