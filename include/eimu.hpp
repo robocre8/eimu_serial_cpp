@@ -355,7 +355,7 @@ private:
       std::vector<uint8_t> payload(3 * sizeof(float));
       std::memcpy(&payload[0],  &a, sizeof(float));
       std::memcpy(&payload[4],  &b, sizeof(float));
-      std::memcpy(&payload[8],  &b, sizeof(float));
+      std::memcpy(&payload[8],  &c, sizeof(float));
       send_packet_with_payload(cmd, payload);
   }
 
