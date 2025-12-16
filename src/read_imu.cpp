@@ -18,6 +18,7 @@ void delay_ms(unsigned long milliseconds)
 
 int main(int argc, char **argv)
 {
+  bool success;
   float r, p, y, ax, ay, az, gx, gy, gz;
 
   auto prevTime = std::chrono::system_clock::now();
@@ -34,14 +35,18 @@ int main(int argc, char **argv)
     std::cout << "configuring controller: " << i << " sec" << std::endl;
   }
 
-  eimu.clearDataBuffer();
+  // success = eimu.clearDataBuffer();
 
   int worldFrameId = 1;
   eimu.setWorldFrameId(worldFrameId);
-  worldFrameId = eimu.getWorldFrameId();
-  if(worldFrameId == 1) std::cout << "ENU Frame" << std::endl;
-  else if(worldFrameId == 0) std::cout << "NWU Frame" << std::endl;
-  else if(worldFrameId == 2) std::cout << "NED Frame" << std::endl;
+  std::tie(success, worldFrameId) = eimu.getWorldFrameId();
+  if (success){
+    if(worldFrameId == 1) std::cout << "ENU Frame" << std::endl;
+    else if(worldFrameId == 0) std::cout << "NWU Frame" << std::endl;
+    else if(worldFrameId == 2) std::cout << "NED Frame" << std::endl;
+  } else {
+    std::cout << "Could not get world frame ID" << std::endl;
+  }
 
   prevTime = std::chrono::system_clock::now();
 
@@ -50,10 +55,9 @@ int main(int argc, char **argv)
     duration = (std::chrono::system_clock::now() - prevTime);
     if (duration.count() > sampleTime)
     {
-      try
-      {
-        eimu.readImuData(r, p, y, ax, ay, az, gz, gy, gz);
+      std::tie(success, r, p, y, ax, ay, az, gz, gy, gz) = eimu.readImuData();
 
+      if (success){
         std::cout << "r: " << r << std::fixed << std::setprecision(4);
         std::cout << "\tp: " << p << std::fixed << std::setprecision(4);
         std::cout << "\ty: " << y << std::fixed << std::setprecision(4) << std::endl;
@@ -68,9 +72,10 @@ int main(int argc, char **argv)
 
         std::cout << std::endl;
       }
-      catch (...)
-      {
+      else {
+        std::cerr << "Error reading IMU data" << std::endl;
       }
+
       prevTime = std::chrono::system_clock::now();
     }
   }

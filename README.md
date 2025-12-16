@@ -23,7 +23,7 @@ A simple way to get started is simply to try out and follow the example code in 
 
 - Connect the **Easy IMU Module** to your PC or microcomputer
 
-- A simple way to get started is simply to try out and follow the example `read_rpy.cpp` code in the src folder.
+- A simple way to get started is simply to try out and follow the example `read_imu.cpp` code in the src folder.
 
 - make, build and run the example code.
   > cd into the root directory
@@ -45,32 +45,36 @@ A simple way to get started is simply to try out and follow the example code in 
 
 ## Basic Library functions and usage
 
-- connect to sic_driver shield module
-  > connect("port_name or port_path")
+- connect to smc_driver shield module
+  > EIMU eimu
+  >
+  > eimu.connect("port_name or port_path")
+  >
+  > eimu.clearDataBuffer() # returns bool -> success
 
-- clear IMU data buffer (ret True or False)
-  > clearDataBuffer()
+- set imu reference frame -> NWU (0), ENU (1), NED (2) 
+  > eimu.setWorldFrameId(frame_id)
 
-- get all imu readings - roll, pitch, yaw, ax, ay, az, gx, gy, gz
-  > readImuData(&r, &p, &y, &ax, &ay, &az, &gx, &gy, &gz)
+- get imu reference frame -> NWU (0), ENU (1), NED (2) 
+  > eimu.getWorldFrameId() # returns std::tuple -> (success, frame_id): bool, int
 
-- get quaternions qw, qx, qy, qz
-  > readQuat(&qw, &qx, &qy, &qz)
+- adjust filter gain
+  > eimu.setFilterGain(gain)
 
-- get reference frame 
-  > getWorldFrameId()  #(0 - NWU,  1 - ENU,  2 - NED)
+- read filter gain
+  > eimu.getFilterGain() # returns std::tuple -> (success, gain): bool, float
 
-- change reference frame (ret True or False)
-  > setWorldFrameId(frame_id) #(0 - NWU,  1 - ENU,  2 - NED)
+- read all IMU data (orientation - RPY, linear acceleration, angular velocity)
+  > eimu.readImuData() # returns std::tuple -> (success, r, p, y, ax, ay, az, gx, gy, gz): bool, float, float, float, float, float, float, float, float, float
 
-- get the madgwick filter gain
-  > getFilterGain()
+- read Oreintation - Quaterninos
+  > eimu.readQuat() # returns std::tuple -> (success, qw, qx, qy, qz): bool, float, float, float, float
 
-- get rpy variances- get Roll, Pitch and Yaw variance value
-  > readRPYVariance(&r, &p, &y)
+- read Oreintation - RPY
+  > eimu.readRPY() # returns std::tuple -> (success, r, p, y): bool, float, float, float
 
-- get gyro rate variances - gx, gy, gz
-  > readGyroVariance(&gx, &gy, &gz)
+- read Linear Acceleration
+  > eimu.readLinearAcc() # returns std::tuple -> (success, ax, ay, az): bool, float, float, float
 
-- get acceleration variances - ax, ay, az
-  > readAccVariance(&ax, &ay, &az)
+- read Gyro (Angular velocity)
+  > eimu.readGyro() # returns std::tuple -> (success, gx, gy, gz): bool, float, float, float
