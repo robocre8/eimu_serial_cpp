@@ -19,7 +19,9 @@ void delay_ms(unsigned long milliseconds)
 int main(int argc, char **argv)
 {
   bool success;
-  float r, p, y, ax, ay, az, gx, gy, gz;
+  float r=0.0, p=0.0, y=0.0;
+  float ax=0.0, ay=0.0, az=0.0;
+  float gx=0.0, gy=0.0, gz=0.0;
 
   auto prevTime = std::chrono::system_clock::now();
   std::chrono::duration<double> duration;
@@ -55,20 +57,22 @@ int main(int argc, char **argv)
     duration = (std::chrono::system_clock::now() - prevTime);
     if (duration.count() > sampleTime)
     {
-      std::tie(success, r, p, y, ax, ay, az, gz, gy, gz) = eimu.readImuData();
+      std::tie(success, r, p, y) = eimu.readRPY();
+      std::tie(success, ax, ay, az) = eimu.readLinearAcc();
+      std::tie(success, gz, gy, gz) = eimu.readGyro();
 
       if (success){
-        std::cout << "r: " << r << std::fixed << std::setprecision(4);
-        std::cout << "\tp: " << p << std::fixed << std::setprecision(4);
-        std::cout << "\ty: " << y << std::fixed << std::setprecision(4) << std::endl;
+        std::cout << "r: " << r ;
+        std::cout << "\tp: " << p ;
+        std::cout << "\ty: " << y << std::endl;
 
-        std::cout << "ax: " << ax << std::fixed << std::setprecision(4);
-        std::cout << "\tay: " << ay << std::fixed << std::setprecision(4);
-        std::cout << "\taz: " << az << std::fixed << std::setprecision(4) << std::endl;
+        std::cout << "ax: " << ax ;
+        std::cout << "\tay: " << ay ;
+        std::cout << "\taz: " << az << std::endl;
 
-        std::cout << "gx: " << gx << std::fixed << std::setprecision(4);
-        std::cout << "\tgy: " << gy << std::fixed << std::setprecision(4);
-        std::cout << "\tgz: " << gz << std::fixed << std::setprecision(4) << std::endl;
+        std::cout << "gx: " << gx ;
+        std::cout << "\tgy: " << gy ;
+        std::cout << "\tgz: " << gz << std::endl;
 
         std::cout << std::endl;
       }
