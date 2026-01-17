@@ -1,3 +1,12 @@
-# Ignore __pycache__ folder
+# build artifacts
+build/
+build-*/
+cmake-build-*/
+
 *build
 *.vscode
+*debian/.deb*
+*debian/eimu*
+*debian/deb*
+*debian/files
+*obj*
