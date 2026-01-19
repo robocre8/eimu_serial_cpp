@@ -1,4 +1,4 @@
-## Easy IMU (EIMU) Cpp Library
+## Easy IMU (EIMU) Cpp Library (arm64-build) e.g for Raspberry Pi, etc.
 C++ serial interface for the Easy IMU (EIMU).
 
 > you can use it in your microcomputer robotics project (e.g Raspberry Pi, PC, etc.) running ubuntu
@@ -10,7 +10,7 @@ C++ serial interface for the Easy IMU (EIMU).
 
 - install the eimu-serial-dev `.deb` file
   ```shell
-    sudo apt install ./eimu-serial-dev_<version>_amd64.deb
+    sudo apt install ./eimu-serial-dev_<version>_arm64.deb
   ```
 
 #
