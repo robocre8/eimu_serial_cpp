@@ -1,4 +1,4 @@
-## Easy IMU (EIMU) Cpp Library
+## Easy IMU (EIMU) Cpp Library (amd64-build) i.e for PC
 C++ serial interface for the Easy IMU (EIMU).
 
 > you can use it in your microcomputer robotics project (e.g Raspberry Pi, PC, etc.) running ubuntu
