@@ -10,7 +10,7 @@ C++ serial interface for the Easy IMU (EIMU).
 
 - install the eimu-serial-dev `.deb` file
   ```shell
-    sudo apt install ../eimu-serial-dev_<version>_amd64.deb
+    sudo apt install ./eimu-serial-dev_<version>_amd64.deb
   ```
 
 #
