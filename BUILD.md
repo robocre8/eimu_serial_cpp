@@ -4,7 +4,7 @@
 
     rm -rf debian/eimu-serial*
 
-    rm -rf build debian/eimu-serial* debian/.debhelper* debian/debhelper* debian/eimu-serial* debian/files obj-x86*
+    rm -rf build debian/eimu-serial* debian/.debhelper* debian/debhelper* debian/eimu-serial* debian/files obj-*
   ```
 
   ```shell
@@ -44,5 +44,5 @@
 
 - remove
   ```shell
-    rm -rf build debian/eimu-serial* debian/.debhelper* debian/debhelper* debian/eimu-serial* debian/files obj-x86*
+    rm -rf build debian/eimu-serial* debian/.debhelper* debian/debhelper* debian/eimu-serial* debian/files obj-*
   ```
