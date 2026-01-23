@@ -17,7 +17,7 @@ A simple way to get started is simply to try out and follow the example code in 
 > [!NOTE]  
 > you can use this command if you want to clone the repo:
 > 
->  ```git clone https://github.com/samuko-things-company/eimu_cpp.git```
+>  ```git clone https://github.com/robocre8/eimu_serial_cpp.git```
 
 - Ensure you have the **Easy IMU Module** is already calibrated.
 
@@ -45,36 +45,37 @@ A simple way to get started is simply to try out and follow the example code in 
 
 ## Basic Library functions and usage
 
-- connect to smc_driver shield module
-  > EIMU eimu
+- connect to EIMU module
+  > eimu_serial::EIMUSerialClient imu;
   >
-  > eimu.connect("port_name or port_path")
-  >
-  > eimu.clearDataBuffer() # returns bool -> success
+  > imu.connect("port_name or port_path")
+
+- clear imu, filter, etc. data buffer on the EIMU module
+  > imu.clearDataBuffer() # returns bool -> success
 
 - set imu reference frame -> NWU (0), ENU (1), NED (2) 
-  > eimu.setWorldFrameId(frame_id)
+  > imu.setWorldFrameId(frame_id)
 
 - get imu reference frame -> NWU (0), ENU (1), NED (2) 
-  > eimu.getWorldFrameId() # returns std::tuple -> (success, frame_id): bool, int
+  > imu.getWorldFrameId() # returns std::tuple -> (success, frame_id): bool, int
 
 - adjust filter gain
-  > eimu.setFilterGain(gain)
+  > imu.setFilterGain(gain)
 
 - read filter gain
-  > eimu.getFilterGain() # returns std::tuple -> (success, gain): bool, float
+  > imu.getFilterGain() # returns std::tuple -> (success, gain): bool, float
 
 - read all IMU data (orientation - RPY, linear acceleration, angular velocity)
-  > eimu.readImuData() # returns std::tuple -> (success, r, p, y, ax, ay, az, gx, gy, gz): bool, float, float, float, float, float, float, float, float, float
+  > imu.readImuData() # returns std::tuple -> (success, r, p, y, ax, ay, az, gx, gy, gz): bool, float, float, float, float, float, float, float, float, float
 
 - read Oreintation - Quaterninos
-  > eimu.readQuat() # returns std::tuple -> (success, qw, qx, qy, qz): bool, float, float, float, float
+  > imu.readQuat() # returns std::tuple -> (success, qw, qx, qy, qz): bool, float, float, float, float
 
 - read Oreintation - RPY
-  > eimu.readRPY() # returns std::tuple -> (success, r, p, y): bool, float, float, float
+  > imu.readRPY() # returns std::tuple -> (success, r, p, y): bool, float, float, float
 
 - read Linear Acceleration
-  > eimu.readLinearAcc() # returns std::tuple -> (success, ax, ay, az): bool, float, float, float
+  > imu.readLinearAcc() # returns std::tuple -> (success, ax, ay, az): bool, float, float, float
 
 - read Gyro (Angular velocity)
-  > eimu.readGyro() # returns std::tuple -> (success, gx, gy, gz): bool, float, float, float
+  > imu.readGyro() # returns std::tuple -> (success, gx, gy, gz): bool, float, float, float
