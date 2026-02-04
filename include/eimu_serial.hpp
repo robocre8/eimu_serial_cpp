@@ -9,8 +9,9 @@
 #include <vector>
 #include <tuple>
 #include <utility>
-#include <stdexcept>
+#include <thread>
 #include <chrono>
+#include <stdexcept>
 #include <cmath>
 
 /* =======================
@@ -144,6 +145,25 @@ public:
         serial.SetFlowControl(LibSerial::FlowControl::FLOW_CONTROL_NONE);
 
         timeout_ms_ = timeout_ms;
+
+        // ---- Allow MCU to boot / flush startup bytes ----
+        std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+
+        // ---- Retry confirm motors ----
+        constexpr int max_attempts = 10;
+
+        for (int i = 0; i < max_attempts; ++i)
+        {
+            auto[success, _] = getWorldFrameId();
+            if (success){
+              std::cout << "EIMU Connected Successfully" << std::endl;
+              return;
+            }
+            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        }
+
+        disconnect();
+        throw std::runtime_error("EIMU could not connect, Please check connection and Try Again");
     }
 
     void disconnect()
@@ -279,15 +299,24 @@ private:
         const size_t bytes_needed = count * sizeof(float);
         std::vector<uint8_t> buf(bytes_needed);
 
-        serial.Read(buf, bytes_needed, timeout_ms_);
-        if (buf.size() != bytes_needed){
-          flush_rx();
-          return {false, std::vector<float>(count, 0.0f)};
+        try {
+            serial.Read(buf, bytes_needed, timeout_ms_);
+            if (buf.size() != bytes_needed){
+              flush_rx();
+              return {false, std::vector<float>(count, 0.0f)};
+            }
+        }
+        catch (const LibSerial::ReadTimeout&) {
+            flush_rx();   // critical for stream resync
+            return {false, std::vector<float>(count, 0.0f)};
+        }
+        catch (...) {
+            flush_rx();
+            return {false, std::vector<float>(count, 0.0f)};
         }
 
         std::vector<float> values(count);
         std::memcpy(values.data(), buf.data(), bytes_needed);
-
         return {true, values};
     }
 

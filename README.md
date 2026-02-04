@@ -5,29 +5,7 @@ This library helps communicate with the already setup **`Easy IMU Module`** in y
 
 A simple way to get started is simply to try out and follow the example code in the src folder
 
-
-## How to Use the .deb Package
-
-#### Prequisite
-- ensure you've already set up your microcomputer or PC system with ROS2
-
-- download and install the eimu-serial-dev pkg. you can also check the [release](https://github.com/robocre8/eimu_serial_cpp/releases/)
-
-[PC (AMD64)](https://github.com/robocre8/eimu_serial_cpp/tree/amd64-build)
-```shell
-wget https://github.com/robocre8/eimu_serial_cpp/releases/download/v1.1.1/eimu-serial-dev_1.1.1_amd64.deb
-```
-```shell
-sudo apt install ./eimu-serial-dev_1.1.1_amd64.deb
-```
-[Raspberry Pi (ARM64)](https://github.com/robocre8/eimu_serial_cpp/tree/arm64-build)
-```shell
-wget https://github.com/robocre8/eimu_serial_cpp/releases/download/v1.1.1/eimu-serial-dev_1.1.1_arm64.deb
-```
-```shell
-sudo apt install ./eimu-serial-dev_1.1.1_arm64.deb
-```
-
+#
 
 ## How to Use the Library (build from source)
 
@@ -40,7 +18,9 @@ sudo apt install ./eimu-serial-dev_1.1.1_arm64.deb
 > [!NOTE]  
 > you can use this command if you want to clone the repo:
 > 
->  ```git clone https://github.com/robocre8/eimu_serial_cpp.git```
+> ```shell
+> git clone https://github.com/robocre8/eimu_serial_cpp.git
+> ```
 
 - Ensure you have the **Easy IMU Module** is already calibrated.
 
