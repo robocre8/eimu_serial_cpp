@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.16)
 
 project(eimu_serial
-    VERSION 1.0.0
+    VERSION 1.2.0
     LANGUAGES CXX
 )
 

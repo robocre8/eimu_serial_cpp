@@ -1,4 +1,4 @@
-## Easy IMU (EIMU) Cpp Library (arm64-build) e.g for Raspberry Pi, etc.
+## Easy IMU (EIMU) Cpp Library (arm64-build) i.e for PC
 C++ serial interface for the Easy IMU (EIMU).
 
 > you can use it in your microcomputer robotics project (e.g Raspberry Pi, PC, etc.) running ubuntu
@@ -10,12 +10,11 @@ C++ serial interface for the Easy IMU (EIMU).
 
 **Raspberry Pi, etc. (ARM64)**
 ```shell
-wget https://github.com/robocre8/eimu_serial_cpp/releases/download/v1.1.1/eimu-serial-dev_1.1.1_arm64.deb
+wget https://github.com/robocre8/eimu_serial_cpp/releases/download/v1.2.0/eimu-serial-dev_1.2.0_arm64.deb
 ```
 ```shell
-sudo apt install ./eimu-serial-dev_1.1.1_arm64.deb
+sudo apt install ./eimu-serial-dev_1.2.0_arm64.deb
 ```
-
 
 #
 
@@ -129,13 +128,6 @@ int main(int argc, char **argv)
   int serial_timeout_ms = 18; // < 20ms(for 50Hz comm)
   imu.connect(serial_port, serial_baud_rate, serial_timeout_ms);
 
-  // wait for the eimu to fully setup
-  for (int i = 1; i <= 4; i += 1)
-  {
-    delay_ms(1000);
-    std::cout << "configuring controller: " << i << " sec" << std::endl;
-  }
-
   // success = imu.clearDataBuffer();
 
   int worldFrameId = 1;
@@ -181,7 +173,6 @@ int main(int argc, char **argv)
     }
   }
 }
-
 ```
 
 #

@@ -1,17 +1,17 @@
 - run in the root directory
   ```shell
-    rm -rf build
-
-    rm -rf debian/eimu-serial*
-
     rm -rf build debian/eimu-serial* debian/.debhelper* debian/debhelper* debian/eimu-serial* debian/files obj-*
   ```
 
   ```shell
   sudo apt update
+  ```
 
+  ```shell
   sudo apt remove eimu-serial-dev
+  ```
 
+  ```shell
   sudo apt install \
     build-essential \
     cmake \
@@ -23,7 +23,9 @@
 
   ```shell
   cmake -S . -B build
+  ```
 
+  ```shell
   cmake --build build
   ```
 
@@ -34,7 +36,10 @@
 - install built .deb package
   ```shell
     sudo apt remove libserial-dev #uninstall
-    sudo apt install ../eimu-serial-dev_<version>_amd64.deb #this should install the libserialdev along
+  ```
+
+  ```shell
+    sudo apt install ../eimu-serial-dev_<version>_arm64.deb #this should install the libserialdev along
   ```
 
 - check if installed
