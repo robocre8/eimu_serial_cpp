@@ -10,10 +10,10 @@ C++ serial interface for the Easy IMU (EIMU).
 
 **PC (AMD64)**
 ```shell
-wget https://github.com/robocre8/eimu_serial_cpp/releases/download/v1.1.1/eimu-serial-dev_1.1.1_amd64.deb
+wget https://github.com/robocre8/eimu_serial_cpp/releases/download/v1.2.0/eimu-serial-dev_1.2.0_amd64.deb
 ```
 ```shell
-sudo apt install ./eimu-serial-dev_1.1.1_amd64.deb
+sudo apt install ./eimu-serial-dev_1.2.0_amd64.deb
 ```
 
 #
@@ -128,13 +128,6 @@ int main(int argc, char **argv)
   int serial_timeout_ms = 18; // < 20ms(for 50Hz comm)
   imu.connect(serial_port, serial_baud_rate, serial_timeout_ms);
 
-  // wait for the eimu to fully setup
-  for (int i = 1; i <= 4; i += 1)
-  {
-    delay_ms(1000);
-    std::cout << "configuring controller: " << i << " sec" << std::endl;
-  }
-
   // success = imu.clearDataBuffer();
 
   int worldFrameId = 1;
@@ -180,7 +173,6 @@ int main(int argc, char **argv)
     }
   }
 }
-
 ```
 
 #
