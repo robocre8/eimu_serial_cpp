@@ -10,10 +10,10 @@ C++ serial interface for the Easy IMU (EIMU).
 
 **PC (AMD64)**
 ```shell
-wget https://github.com/robocre8/eimu_serial_cpp/releases/download/v1.2.0/eimu-serial-dev_1.2.0_amd64.deb
+wget https://github.com/robocre8/eimu_serial_cpp/releases/download/v1.3.0/eimu-serial-dev_1.3.0_amd64.deb
 ```
 ```shell
-sudo apt install ./eimu-serial-dev_1.2.0_amd64.deb
+sudo apt install ./eimu-serial-dev_1.3.0_amd64.deb
 ```
 
 #
@@ -51,34 +51,34 @@ sudo apt install ./eimu-serial-dev_1.2.0_amd64.deb
   > imu.connect("port_name or port_path")
 
 - clear imu, filter, etc. data buffer on the EIMU module
-  > imu.clearDataBuffer() # returns bool -> success
+  > imu.clearDataBuffer() // returns bool -> success
 
 - set imu reference frame -> NWU (0), ENU (1), NED (2) 
-  > imu.setWorldFrameId(frame_id)
+  > imu.setWorldFrameId(frame_id) 
 
 - get imu reference frame -> NWU (0), ENU (1), NED (2) 
-  > imu.getWorldFrameId() # returns std::tuple -> (success, frame_id): bool, int
+  > imu.getWorldFrameId() // returns std::tuple -> bool, float
 
 - adjust filter gain
   > imu.setFilterGain(gain)
 
 - read filter gain
-  > imu.getFilterGain() # returns std::tuple -> (success, gain): bool, float
+  > imu.getFilterGain() // returns std::tuple -> bool, float
 
 - read all IMU data (orientation - RPY, linear acceleration, angular velocity)
-  > imu.readImuData() # returns std::tuple -> (success, r, p, y, ax, ay, az, gx, gy, gz): bool, float, float, float, float, float, float, float, float, float
+  > imu.readImuData() // returns std::tuple -> bool, std::vector<float> (r, p, y, ax, ay, az, gx, gy, gz)
 
 - read Oreintation - Quaterninos
-  > imu.readQuat() # returns std::tuple -> (success, qw, qx, qy, qz): bool, float, float, float, float
+  > imu.readQuat() // returns std::tuple -> bool, std::vector<float> (qw, qx, qy, qz)
 
 - read Oreintation - RPY
-  > imu.readRPY() # returns std::tuple -> (success, r, p, y): bool, float, float, float
+  > imu.readRPY() // returns std::tuple -> bool, std::vector<float> (r, p, y)
 
 - read Linear Acceleration
-  > imu.readLinearAcc() # returns std::tuple -> (success, ax, ay, az): bool, float, float, float
+  > imu.readLinearAcc() // returns std::tuple -> bool, std::vector<float> (ax, ay, az)
 
 - read Gyro (Angular velocity)
-  > imu.readGyro() # returns std::tuple -> (success, gx, gy, gz): bool, float, float, float
+  > imu.readGyro() // returns std::tuple -> bool, std::vector<float> (gx, gy, gz)
 
 - while these function above help communicate with the already configure EIMU module, more examples of advanced funtions usage for parameter tuning can be found in the [eimu_setup_application](https://github.com/robocre8/eimu_setup_application) source code
 
@@ -117,7 +117,8 @@ int main(int argc, char **argv)
   float toDeg = 1 / toRad;
 
   bool success;
-  float r, p, y, ax, ay, az, gx, gy, gz;
+  float val0;
+  std::vector<float> buffer;
 
   auto prevTime = std::chrono::system_clock::now();
   std::chrono::duration<double> duration;
@@ -132,8 +133,9 @@ int main(int argc, char **argv)
 
   int worldFrameId = 1;
   imu.setWorldFrameId(worldFrameId);
-  std::tie(success, worldFrameId) = imu.getWorldFrameId();
+  std::tie(success, val0) = imu.getWorldFrameId();
   if (success){
+    worldFrameId = (int)val0;
     if(worldFrameId == 1) std::cout << "ENU Frame" << std::endl;
     else if(worldFrameId == 0) std::cout << "NWU Frame" << std::endl;
     else if(worldFrameId == 2) std::cout << "NED Frame" << std::endl;
@@ -148,9 +150,22 @@ int main(int argc, char **argv)
     duration = (std::chrono::system_clock::now() - prevTime);
     if (duration.count() > sampleTime)
     {
-      std::tie(success, r, p, y, ax, ay, az, gx, gy, gz) = imu.readImuData();
+      // float qw, qx, qy, qz;
+      // std::tie(success, buffer) = imu.readQuat();
+      // if (success){
+      //   qw = buffer[0];
+      //   qx = buffer[1];
+      //   qy = buffer[2];
+      //   qz = buffer[3];
+      // }
 
+      float r, p, y, ax, ay, az, gx, gy, gz;
+      std::tie(success, buffer) = imu.readImuData();
       if (success){
+        r = buffer[0]; p = buffer[1]; y = buffer[2];
+        ax = buffer[3]; ay = buffer[4]; az = buffer[5];
+        gx = buffer[6]; gy = buffer[7]; gz = buffer[8];
+
         std::cout << "r: " << r*toDeg << std::fixed << std::setprecision(2);
         std::cout << "\tp: " << p*toDeg << std::fixed << std::setprecision(2);
         std::cout << "\ty: " << y*toDeg << std::fixed << std::setprecision(2) << std::endl;
