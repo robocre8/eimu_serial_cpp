@@ -54,31 +54,31 @@ A simple way to get started is simply to try out and follow the example code in 
   > imu.connect("port_name or port_path")
 
 - clear imu, filter, etc. data buffer on the EIMU module
-  > imu.clearDataBuffer() # returns bool -> success
+  > imu.clearDataBuffer() // returns bool -> success
 
 - set imu reference frame -> NWU (0), ENU (1), NED (2) 
-  > imu.setWorldFrameId(frame_id)
+  > imu.setWorldFrameId(frame_id) 
 
 - get imu reference frame -> NWU (0), ENU (1), NED (2) 
-  > imu.getWorldFrameId() # returns std::tuple -> (success, frame_id): bool, int
+  > imu.getWorldFrameId() // returns std::tuple -> bool, float
 
 - adjust filter gain
   > imu.setFilterGain(gain)
 
 - read filter gain
-  > imu.getFilterGain() # returns std::tuple -> (success, gain): bool, float
+  > imu.getFilterGain() // returns std::tuple -> bool, float
 
 - read all IMU data (orientation - RPY, linear acceleration, angular velocity)
-  > imu.readImuData() # returns std::tuple -> (success, r, p, y, ax, ay, az, gx, gy, gz): bool, float, float, float, float, float, float, float, float, float
+  > imu.readImuData() // returns std::tuple -> bool, std::vector<float> (r, p, y, ax, ay, az, gx, gy, gz)
 
 - read Oreintation - Quaterninos
-  > imu.readQuat() # returns std::tuple -> (success, qw, qx, qy, qz): bool, float, float, float, float
+  > imu.readQuat() // returns std::tuple -> bool, std::vector<float> (qw, qx, qy, qz)
 
 - read Oreintation - RPY
-  > imu.readRPY() # returns std::tuple -> (success, r, p, y): bool, float, float, float
+  > imu.readRPY() // returns std::tuple -> bool, std::vector<float> (r, p, y)
 
 - read Linear Acceleration
-  > imu.readLinearAcc() # returns std::tuple -> (success, ax, ay, az): bool, float, float, float
+  > imu.readLinearAcc() // returns std::tuple -> bool, std::vector<float> (ax, ay, az)
 
 - read Gyro (Angular velocity)
-  > imu.readGyro() # returns std::tuple -> (success, gx, gy, gz): bool, float, float, float
+  > imu.readGyro() // returns std::tuple -> bool, std::vector<float> (gx, gy, gz)
